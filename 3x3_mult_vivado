@@ -1,0 +1,15 @@
+`timescale 1ns / 1ps
+
+
+module mul( input[2:0] A, input[2:0] B,input Cin,output[6:1] cr, output[6:0] out,inout[3:0] o );
+    assign out[0] = a[0] & b[0] ;
+    fulladd xy(.A(A[0]&B[1]),.B(A[1]&B[0]),.C(Cin),.carry(cr[1]),.sum(out[1])),
+            qw(.A(A[2]&B[0]),.B(A[1]&B[1]),.C(cr[1]),.carry(cr[2]),.sum(o[0])),
+            qq(.A(A[0]&B[2]),.B(o[0]),.C(Cin),.carry(cr[3]),.sum(out[2])),
+            ww(.A(cr[2]),.B(cr[3]),.C(A[2]&B[1]),.carry(cr[4]),.sum(o[1])),
+            as(.A(o[1]),.B(A[1]&B[2]),.C(Cin),.carry(cr[5]),.sum(out[3])),
+            er(.A(cr[4]),.B(cr[5]),.C(A[2]&B[2]),.carry(cr[6]),.sum(out[4]));
+    assign out[6] = cr[6];        
+    
+
+endmodule
