@@ -1,0 +1,8 @@
+`timescale 1ns / 1ps
+
+module fulladd(input A,B,C,output sum ,carry );
+    assign sum = (A^B)^C;
+    assign carry = (A&B) + (C&(A^B));
+endmodule
+
+
