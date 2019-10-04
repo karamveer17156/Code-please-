@@ -1,0 +1,34 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 20.08.2018 10:57:23
+// Design Name: 
+// Module Name: debounce
+// Project Name: 
+// Target Devices: 
+// Tool Versions: 
+// Description: 
+// 
+// Dependencies: 
+// 
+// Revision:
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module debounce(
+input clk,input push,output deboun
+    );
+reg [2:0] ff;
+always @(posedge clk)
+begin
+ff[2]<=push;
+ff[1]<=ff[2];
+ff[0]<=ff[1];
+end
+assign deboun=(ff[2] & ff[1] & ff[0]);
+endmodule
