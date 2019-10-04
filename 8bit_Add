@@ -1,0 +1,13 @@
+`timescale 1ns / 1ps
+
+
+module bitadd( input[7:0] A ,input[7:0] B,input Cin,output[8:1] C, output[7:0] out  );
+    fulladd x(.A(A[0]),.B(B[0]),.C(Cin),.carry(C[1]),.sum(out[0])),
+            U(.A(A[1]),.B(B[1]),.C(C[1]),.carry(C[2]),.sum(out[1])),
+            w(.A(A[2]),.B(B[2]),.C(C[2]),.carry(C[3]),.sum(out[2])),
+            q(.A(A[3]),.B(B[3]),.C(C[3]),.carry(C[4]),.sum(out[3])),
+            r(.A(A[4]),.B(B[4]),.C(C[4]),.carry(C[5]),.sum(out[4])),
+            t(.A(A[5]),.B(B[5]),.C(C[5]),.carry(C[6]),.sum(out[5])),
+            s(.A(A[6]),.B(B[6]),.C(C[6]),.carry(C[7]),.sum(out[6])),
+            y(.A(A[7]),.B(B[7]),.C(C[7]),.carry(C[8]),.sum(out[7]));
+endmodule
