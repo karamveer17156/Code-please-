@@ -1,0 +1,90 @@
+`timescale 1ns / 1ps
+module top(input clk,input in_ready,out_ready,out_ready1,in_valid,out_valid,input [31:0] q1,q2,q3,q4, output[2:0] res  );
+    wire[7:0] res1,res2,res3;
+    reg[2:0] res=0;
+    reg[31:0] r1,r2;
+    
+    floating_point_0 ins (
+                .aclk(clk) ,
+                .s_axis_a_tvalid(in_valid) ,
+                .s_axis_a_tready(out_ready) ,
+                .s_axis_a_tdata(q1) ,
+                .s_axis_b_tvalid(in_valid) ,
+                .s_axis_b_tready(out_ready) ,
+                .s_axis_b_tdata(q2) ,
+                .m_axis_result_tvalid(out_valid) ,
+                .m_axis_result_tready(in_ready) ,
+                .m_axis_result_tdata(res1) 
+              );
+     always@(posedge clk)
+     begin
+        if(res1 == 7'b1)
+        begin
+            r1 = q1;
+            
+        end
+        else
+        begin
+            r1 = q2;  
+            
+        end      
+     end         
+     floating_point_0 ins1 (
+                .aclk(clk) ,
+                .s_axis_a_tvalid(in_valid) ,
+                .s_axis_a_tready(out_ready1) ,
+                .s_axis_a_tdata(q3) ,
+                .s_axis_b_tvalid(in_valid) ,
+                .s_axis_b_tready(out_ready1) ,
+                .s_axis_b_tdata(q4) ,
+                .m_axis_result_tvalid(out_valid) ,
+                .m_axis_result_tready(in_ready) ,
+                .m_axis_result_tdata(res2) 
+              );  
+      always@(posedge clk)
+      begin
+        if(res2 == 7'b1)
+        begin
+            r2 = q3;
+            
+        end
+        else
+        begin
+            r2 = q4;  
+              
+        end
+      end     
+      floating_point_0 ins2 (
+                      .aclk(clk) ,
+                      .s_axis_a_tvalid(in_valid) ,
+                      .s_axis_a_tready(in_ready) ,
+                      .s_axis_a_tdata(r1) ,
+                      .s_axis_b_tvalid(in_valid) ,
+                      .s_axis_b_tready(in_ready) ,
+                      .s_axis_b_tdata(r2) ,
+                      .m_axis_result_tvalid(out_valid) ,
+                      .m_axis_result_tready(out_ready|out_ready1) ,
+                      .m_axis_result_tdata(res3) 
+                    );
+       always@(posedge clk)
+       begin
+            if(res3==7'b1)
+            begin
+                if(r1 == q1)
+                    res = 3'd1;
+                else if(r1 == q2)
+                    res = 3'd2;    
+            end
+            
+            else
+            begin
+                if(r2 == q3)
+                    res = 3'd3;
+                else if(r2 == q4)
+                    res = 3'd4;    
+            end
+                               
+       end             
+      
+                  
+endmodule
